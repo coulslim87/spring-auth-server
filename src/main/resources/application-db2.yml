@@ -1,0 +1,22 @@
+spring:
+  config:
+    activate:
+      on-profile: db2
+
+  datasource:
+    url: jdbc:db2://${DB_HOST:localhost}:${DB_PORT:50000}/${DB_NAME:AUTHDB}
+    username: ${DB_USERNAME:db2user}
+    password: ${DB_PASSWORD:db2pass}
+    driver-class-name: com.ibm.db2.jcc.DB2Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.DB2Dialect
+
+  flyway:
+    schemas: ${DB_SCHEMA:}

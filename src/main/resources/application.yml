@@ -1,17 +1,17 @@
 
 # Profiles:
-# - default: DB2 + JPA + Flyway
-# - local-h2: H2 in-memory local (see application-local-h2.yml)
+# - default: local-h2 (H2 in-memory)
+# - db2: DB2 + JPA + Flyway (see application-db2.yml)
+# - local-h2: alias local H2 (see application-local-h2.yml)
 spring:
+  profiles:
+    default: local-h2
+
   datasource:
-    url: jdbc:db2://${DB_HOST:localhost}:${DB_PORT:50000}/${DB_NAME:AUTHDB}
-    username: ${DB_USERNAME:db2user}
-    password: ${DB_PASSWORD:db2pass}
-    driver-class-name: com.ibm.db2.jcc.DB2Driver
-    hikari:
-      maximum-pool-size: 10
-      minimum-idle: 2
-      connection-timeout: 30000
+    url: jdbc:h2:mem:authserver;MODE=DB2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
 
   jpa:
     hibernate:
@@ -19,15 +19,13 @@ spring:
     show-sql: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.DB2Dialect
+        dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
 
   flyway:
     enabled: true
     locations: classpath:db/migration
     baseline-on-migrate: true
-    # DB2 uses uppercase schema names by default
-    schemas: ${DB_SCHEMA:}
 
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
