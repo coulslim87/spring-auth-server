@@ -50,7 +50,6 @@ import java.util.UUID;
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
-    private final CustomOAuth2UserService oAuth2UserService;
 
     // ─────────────────────────────────────────────────────────────
     // 1. Authorization Server filter chain (OAuth2 endpoints)
@@ -79,7 +78,8 @@ public class SecurityConfig {
     // ─────────────────────────────────────────────────────────────
     @Bean
     @Order(2)
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http,
+                                                          CustomOAuth2UserService oAuth2UserService) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
                 // Public endpoints
