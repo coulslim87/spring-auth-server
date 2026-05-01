@@ -98,6 +98,29 @@ export DB_PASSWORD=yourpassword
 mvn spring-boot:run
 ```
 
+
+### Dépannage: l'application démarre quand même en DB2
+
+Si vous voyez une erreur DB2 sur `localhost:50000` alors que vous vouliez H2, c'est qu'un profil/paramètre DB2 est forcé dans votre environnement (shell, IDE, Docker, CI).
+
+Vérifiez puis nettoyez:
+
+```bash
+printenv | grep -E 'SPRING_PROFILES_ACTIVE|SPRING_DATASOURCE_URL|SPRING_DATASOURCE_DRIVER_CLASS_NAME|DB_HOST|DB_PORT|DB_NAME|DB_USERNAME'
+unset SPRING_PROFILES_ACTIVE SPRING_DATASOURCE_URL SPRING_DATASOURCE_DRIVER_CLASS_NAME
+```
+
+Ensuite relancez:
+
+```bash
+mvn spring-boot:run
+```
+
+Depuis ce projet, un log de diagnostic au démarrage affiche explicitement:
+- les profils Spring actifs
+- les profils par défaut
+- l'URL datasource réellement utilisée
+
 ## Accès
 
 | URL | Description |
