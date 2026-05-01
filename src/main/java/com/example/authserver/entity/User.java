@@ -3,7 +3,7 @@ package com.example.authserver.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
-
+import org.hibernate.type.NumericBooleanConverter;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,23 +29,28 @@ public class User {
     @Column(nullable = false, length = 255)
     private String password;
 
-    @Column(nullable = false, columnDefinition = "SMALLINT DEFAULT 1")
+    @Column(nullable = false)
+    @Convert(converter = NumericBooleanConverter.class)
     @Builder.Default
     private boolean enabled = true;
 
-    @Column(name = "ACCOUNT_NON_EXPIRED", nullable = false, columnDefinition = "SMALLINT DEFAULT 1")
+    @Column(name = "ACCOUNT_NON_EXPIRED", nullable = false)
+    @Convert(converter = NumericBooleanConverter.class)
     @Builder.Default
     private boolean accountNonExpired = true;
 
-    @Column(name = "ACCOUNT_NON_LOCKED", nullable = false, columnDefinition = "SMALLINT DEFAULT 1")
+    @Column(name = "ACCOUNT_NON_LOCKED", nullable = false)
+    @Convert(converter = NumericBooleanConverter.class)
     @Builder.Default
     private boolean accountNonLocked = true;
 
-    @Column(name = "CREDENTIALS_NON_EXPIRED", nullable = false, columnDefinition = "SMALLINT DEFAULT 1")
+    @Column(name = "CREDENTIALS_NON_EXPIRED", nullable = false)
+    @Convert(converter = NumericBooleanConverter.class)
     @Builder.Default
     private boolean credentialsNonExpired = true;
 
-    @Column(name = "MFA_ENABLED", nullable = false, columnDefinition = "SMALLINT DEFAULT 0")
+    @Column(name = "MFA_ENABLED", nullable = false)
+    @Convert(converter = NumericBooleanConverter.class)
     @Builder.Default
     private boolean mfaEnabled = false;
 
