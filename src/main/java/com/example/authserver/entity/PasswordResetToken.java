@@ -2,6 +2,7 @@ package com.example.authserver.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.type.NumericBooleanConverter;
 
 import java.time.LocalDateTime;
 
@@ -28,6 +29,7 @@ public class PasswordResetToken {
     private LocalDateTime expiryDate;
 
     @Column(nullable = false)
+    @Convert(converter = NumericBooleanConverter.class)
     @Builder.Default
     private boolean used = false;
 
