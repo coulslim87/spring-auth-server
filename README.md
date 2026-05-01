@@ -71,6 +71,22 @@ Les migrations Flyway créent automatiquement toutes les tables au démarrage.
 
 ---
 
+
+## Option locale H2 (sans DB2)
+
+Une option de profil **local-h2** est ajoutée pour démarrer sans DB2, avec une base H2 en mémoire.
+
+### Lancer en mode H2 local
+
+```bash
+export SPRING_PROFILES_ACTIVE=local-h2
+mvn spring-boot:run
+```
+
+Le profil active une datasource H2 en mémoire (`jdbc:h2:mem:authserver`) et garde JPA + Flyway actifs pour démarrer l’application avec les migrations existantes.
+
+La console H2 est activée sur `http://localhost:8080/h2-console` (JDBC URL: `jdbc:h2:mem:authserver`, user `sa`, mot de passe vide).
+
 ## Accès
 
 | URL | Description |

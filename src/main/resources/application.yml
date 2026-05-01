@@ -1,3 +1,7 @@
+
+# Profiles:
+# - default: DB2 + JPA + Flyway
+# - local-h2: H2 in-memory local (see application-local-h2.yml)
 spring:
   datasource:
     url: jdbc:db2://${DB_HOST:localhost}:${DB_PORT:50000}/${DB_NAME:AUTHDB}
