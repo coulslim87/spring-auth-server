@@ -27,7 +27,7 @@ public class PasswordResetToken {
     @Column(name = "EXPIRY_DATE", nullable = false)
     private LocalDateTime expiryDate;
 
-    @Column(nullable = false, columnDefinition = "SMALLINT DEFAULT 0")
+    @Column(nullable = false)
     @Builder.Default
     private boolean used = false;
 
