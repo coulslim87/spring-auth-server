@@ -1,5 +1,5 @@
 -- ============================================================
--- V1 - Application Schema (DB2 LUW 11.5+)
+-- V1 - Application Schema (H2 + DB2 compatible)
 -- ============================================================
 
 CREATE TABLE ROLES (
@@ -23,7 +23,7 @@ CREATE TABLE USERS (
     -- Social login provider info (null for local users)
     PROVIDER                 VARCHAR(20),
     PROVIDER_ID              VARCHAR(255),
-    CREATED_AT               TIMESTAMP    DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CREATED_AT               TIMESTAMP    DEFAULT CURRENT_TIMESTAMP NOT NULL, -- avoid DB2-specific `WITH DEFAULT` for H2 compatibility
     UPDATED_AT               TIMESTAMP
 );
 
@@ -44,7 +44,7 @@ CREATE TABLE PASSWORD_RESET_TOKENS (
     USER_ID     BIGINT       NOT NULL,
     EXPIRY_DATE TIMESTAMP    NOT NULL,
     USED        SMALLINT     NOT NULL DEFAULT 0,
-    CREATED_AT  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CREATED_AT  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP NOT NULL, -- avoid DB2-specific `WITH DEFAULT` for H2 compatibility
     CONSTRAINT FK_PRT_USER FOREIGN KEY (USER_ID) REFERENCES USERS (ID) ON DELETE CASCADE
 );
 
