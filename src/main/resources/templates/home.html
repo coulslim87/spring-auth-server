@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Home — Auth Server</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<main class="container">
+    <h1>Welcome, <span th:text="${user.username}">user</span>! 👋</h1>
+    <div class="card-grid">
+        <div class="card">
+            <h3>🔐 My Account</h3>
+            <p>Change your password, manage two-factor authentication.</p>
+            <a th:href="@{/account}" class="btn btn-outline">Go to account</a>
+        </div>
+        <div class="card" sec:authorize="hasRole('ADMIN')">
+            <h3>⚙️ Admin</h3>
+            <p>Manage users, OAuth2 clients, and server settings.</p>
+            <a th:href="@{/admin/users}" class="btn btn-outline">Go to admin</a>
+        </div>
+    </div>
+    <div class="card mt-4">
+        <h3>📡 Discovery Endpoint</h3>
+        <p>Your OIDC configuration is available at:</p>
+        <code th:text="${@environment.getProperty('app.base-url')} + '/.well-known/openid-configuration'"></code>
+    </div>
+</main>
+</body>
+</html>

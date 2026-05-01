@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>My Account — Auth Server</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<main class="container">
+    <h1>My Account</h1>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <!-- Profile info -->
+    <div class="card mb-4">
+        <h3>Profile</h3>
+        <dl class="dl-inline">
+            <dt>Username</dt><dd th:text="${user.username}"></dd>
+            <dt>Email</dt>   <dd th:text="${user.email}"></dd>
+            <dt>Provider</dt><dd th:text="${user.provider}"></dd>
+        </dl>
+    </div>
+
+    <!-- Change password (local users only) -->
+    <div class="card mb-4" th:if="${user.localUser}">
+        <h3>Change Password</h3>
+        <form method="post" th:action="@{/account/change-password}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <div class="form-group">
+                <label>Current Password</label>
+                <input name="currentPassword" type="password" class="form-control" required/>
+            </div>
+            <div class="form-group">
+                <label>New Password</label>
+                <input name="newPassword" type="password" class="form-control" minlength="8" required/>
+            </div>
+            <div class="form-group">
+                <label>Confirm New Password</label>
+                <input name="confirmPassword" type="password" class="form-control" minlength="8" required/>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Password</button>
+        </form>
+    </div>
+
+    <!-- MFA -->
+    <div class="card">
+        <h3>Two-Factor Authentication (TOTP)</h3>
+        <div th:if="${!user.mfaEnabled}">
+            <p class="text-muted">2FA is currently <strong>disabled</strong>.</p>
+            <a th:href="@{/mfa/setup}" class="btn btn-primary">Enable 2FA</a>
+        </div>
+        <div th:if="${user.mfaEnabled}">
+            <p class="text-success">✅ 2FA is <strong>enabled</strong>.</p>
+            <form method="post" th:action="@{/mfa/disable}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <div class="form-group">
+                    <label>Enter your current 2FA code to disable</label>
+                    <input name="code" type="text" class="form-control form-control--otp"
+                           inputmode="numeric" maxlength="6" pattern="[0-9]{6}" required/>
+                </div>
+                <button type="submit" class="btn btn-danger">Disable 2FA</button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

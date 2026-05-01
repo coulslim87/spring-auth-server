@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="${pageTitle != null ? pageTitle + ' — Auth Server' : 'Auth Server'}">Auth Server</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+
+<nav class="navbar" th:fragment="navbar">
+    <div class="navbar-brand">🔐 Auth Server</div>
+    <div class="navbar-links">
+        <a th:href="@{/}" sec:authorize="isAuthenticated()">Home</a>
+        <a th:href="@{/account}" sec:authorize="isAuthenticated()">My Account</a>
+        <a th:href="@{/admin/users}" sec:authorize="hasRole('ADMIN')">Admin</a>
+        <a th:href="@{/logout}" sec:authorize="isAuthenticated()">Logout</a>
+        <a th:href="@{/login}" sec:authorize="isAnonymous()">Login</a>
+    </div>
+</nav>
+
+<div th:fragment="alerts">
+    <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+    <div class="alert alert-error"   th:if="${error}"   th:text="${error}"></div>
+    <div class="alert alert-info"    th:if="${message}" th:text="${message}"></div>
+    <div class="alert alert-success" th:if="${successFlash}" th:text="${successFlash}"></div>
+</div>
+
+</body>
+</html>
